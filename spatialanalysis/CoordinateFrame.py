@@ -19,6 +19,9 @@ class CoordinateFrame(object):
         else:
             self.longName = str(longName)
 
+    def copy(self, newShortName, newLongName=None):
+        return CoordinateFrame(newShortName, tfMat=self.tfMat, longName=newLongName)
+
     def __repr__(self):
         return f"<CoordinateFrame '{self.shortName}' ({self.longName})>"
 

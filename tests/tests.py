@@ -44,6 +44,10 @@ class TestCoordinateFrameBasics(unittest.TestCase):
         pt = sa.Point([1, 1, 1], 'Pt1', nativeCF=self.Xrot)
         self.assertEqual(pt, np.array([1, 0.3660254, 1.3660254]))
 
+    def test_copy(self):
+        cf1 = self.threeAxShift.copy('CF1')
+        self.assertEqual(self.threeAxShift, cf1)
+
     def test_shiftAfterCreation(self):
         cf1 = sa.CoordinateFrame("CF1")
         cf1.transform(1.2, 3.4, 5.6, 0, 0, 0)
