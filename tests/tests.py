@@ -58,6 +58,19 @@ class TestCoordinateFrameBasics(unittest.TestCase):
         cf1.transform(0, 0, 0, 30, 0, 0)
         self.assertEqual(self.Xrot, cf1)
 
+    def test_rotateInOtherFrame(self):
+        refCF = sa.CoordinateFrame("RefCF")
+        refCF.transform(1.5, 0, 0, 0, 0, 0)
+
+        testCF1 = sa.CoordinateFrame("TestCF1")
+        testCF1.transform(0, 0, 0, 0, 180, 0)
+        testCF1.transform(3, 0, 0, 0, 0, 0)
+
+        testCF2 = sa.CoordinateFrame("TestCF2")
+        testCF2.transform(0, 0, 0, 0, 180, 0, refFrame=refCF)
+
+        self.assertEqual(testCF1, testCF2)
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)
 

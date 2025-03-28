@@ -19,6 +19,9 @@ class CoordinateFrame(object):
         else:
             self.longName = str(longName)
 
+    def origin(self):
+        return self.tfMat[:3, 3]
+
     def copy(self, newShortName, newLongName=None):
         return CoordinateFrame(newShortName, tfMat=self.tfMat, longName=newLongName)
 
@@ -39,7 +42,8 @@ class CoordinateFrame(object):
 
         tf = makeTransform(tx, ty, tz, rx, ry, rz, units=units)
 
-        self.tfMat = tf @ self.tfMat
+        foo = refFrame.tfMat @ tf @ np.linalg.inv(refFrame.tfMat) @ self.tfMat
+        self.tfMat = foo
 
     def asJSON(self):
         pass
