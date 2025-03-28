@@ -15,6 +15,7 @@ class TestCoordinateFrameBasics(unittest.TestCase):
     def setUp(self):
         self.plus1Z = sa.CoordinateFrame("+1Z", tfMat=np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 1], [0, 0, 0, 1]]))
         self.threeAxShift = sa.CoordinateFrame("+1Z", tfMat=np.array([[1, 0, 0, 1.2], [0, 1, 0, 3.4], [0, 0, 1, 5.6], [0, 0, 0, 1]]))
+        self.Xrot = sa.CoordinateFrame("+1Z", tfMat=sa.makeTransform(0, 0, 0, 45, 0, 0))
 
     def test_GOCF(self):
         self.assertTrue(isinstance(sa.GOCF, sa.CoordinateFrame))
@@ -39,6 +40,10 @@ class TestCoordinateFrameBasics(unittest.TestCase):
     def test_3AxOffset(self):
         pt = sa.Point([1., 2., -3.], 'Pt1', nativeCF=self.threeAxShift)
         self.assertEqual(pt, np.array([2.2, 5.4, 2.6]))
+
+    def test_rotate(self):
+        pt = sa.Point([1, 1, 1], 'Pt1', nativeCF=self.Xrot)
+        self.assertEqual(pt, np.array([1, 0, 1.41421356]))
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)

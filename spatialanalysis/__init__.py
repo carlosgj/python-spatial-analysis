@@ -1,6 +1,6 @@
 from spatialanalysis.CoordinateFrame import CoordinateFrame, GOCF
 from spatialanalysis.primitives import *
-import numpy as np
+from spatialanalysis.utils import *
 
 __version__ = '0.0.1'
 
