@@ -14,16 +14,14 @@ class Point(object):
         if nativeCF is None:
             #Assume GOCF
             self.logger.warning("No native coordinate frame given; assuming GOCF")
-            self.nativeCF = GOCF
             self.coordinates = self.coordinatesNative
         else:
             assert isinstance(nativeCF, CoordinateFrame)
-            self.nativeCF = nativeCF
             homogCoord = np.append(coordinates, 1.)
             self.coordinates = (nativeCF.tfMat @ homogCoord)[:3]
 
     def __repr__(self):
-        return f"<Point '{self.name}' {self.nativeCF.shortName}:{self.coordinatesNative}>"
+        return f"<Point '{self.name}' {self.coordinatesNative}>"
 
     def __str__(self):
         return f"<Point '{self.name}'>"
