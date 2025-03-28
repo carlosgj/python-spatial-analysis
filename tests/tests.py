@@ -10,6 +10,23 @@ class TestPointBasics(unittest.TestCase):
         pt2 = sa.Point([0, 0, 0], 'Pt2', nativeCF=sa.GOCF)
         self.assertEqual(pt1, pt2)
 
+    def test_shiftInGOCF(self):
+        pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
+        pt1.transform(1.5, 0, 0, 0, 0, 0)
+        self.assertEqual(pt1, np.array([1.5, 0, 0]))
+
+    def test_rotateInGOCF(self):
+        pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
+        pt1.transform(1, 0, 0, 0, 0, 0)
+        pt1.transform(0, 0, 0, 0, 0, 45)
+        self.assertEqual(pt1, np.array([0.70710678, 0.70710678, 0]))
+
+    def test_rotateInOtherCF(self):
+        refCF = sa.CoordinateFrame("PlusX", tfMat=sa.makeTransform(1.5, 0, 0, 0, 0, 0))
+        pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
+        pt1.transform(0, 0, 0, 0, 180, 0, refFrame=refCF)
+        self.assertEqual(pt1, np.array([3, 0, 0]))
+
 class TestCoordinateFrameBasics(unittest.TestCase):
     def setUp(self):
         self.plus1Z = sa.CoordinateFrame("+1Z", tfMat=np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 1], [0, 0, 0, 1]]))

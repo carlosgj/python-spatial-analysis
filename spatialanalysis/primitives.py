@@ -1,6 +1,7 @@
 import logging
 import numpy as np
 from spatialanalysis.CoordinateFrame import GOCF, CoordinateFrame
+from spatialanalysis.utils import *
 
 class Point(object):
     def __init__(self, coordinates, name, nativeCF=None):
@@ -33,5 +34,11 @@ class Point(object):
             assert len(other) == 3
             return np.allclose(self.coordinates, other)
 
+    def transform(self, tx, ty, tz, rx, ry, rz, units='degrees', refFrame=None):
+        if refFrame is None:
+            refFrame = GOCF
 
-
+        tf = makeTransform(tx, ty, tz, rx, ry, rz, units=units)
+        homogCoord = np.append(self.coordinates, 1.)
+        foo = refFrame.tfMat @ tf @ np.linalg.inv(refFrame.tfMat) @ homogCoord
+        self.coordinates = foo[:3]
