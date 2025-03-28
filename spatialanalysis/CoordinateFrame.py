@@ -1,5 +1,6 @@
 import logging
 import numpy as np
+from spatialanalysis.utils import *
 
 class CoordinateFrame(object):
     def __init__(self, shortName, tfMat=None, longName=None):
@@ -28,6 +29,14 @@ class CoordinateFrame(object):
         if isinstance(other, CoordinateFrame):
             return np.allclose(self.tfMat, other.tfMat)
         return False
+
+    def transform(self, tx, ty, tz, rx, ry, rz, units='degrees', refFrame=None):
+        if refFrame is None:
+            refFrame = GOCF
+
+        tf = makeTransform(tx, ty, tz, rx, ry, rz, units=units)
+
+        self.tfMat = tf @ self.tfMat
 
     def asJSON(self):
         pass
