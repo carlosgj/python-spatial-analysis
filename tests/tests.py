@@ -2,7 +2,6 @@ import unittest
 import logging
 import numpy as np
 import spatialanalysis as sa
-print(sa.GOCF)
 
 class TestPointBasics(unittest.TestCase):
     def test_ident(self):
@@ -47,5 +46,12 @@ class TestCoordinateFrameBasics(unittest.TestCase):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)
+
+    #Make sure things print okay(
+    print(sa.GOCF)
+    print(repr(sa.GOCF))
+    pt = sa.Point([0, 0, 0], 'Pt')
+    print(pt)
+    print(repr(pt))
 
     unittest.main()

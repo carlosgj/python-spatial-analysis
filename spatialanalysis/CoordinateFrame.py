@@ -19,10 +19,10 @@ class CoordinateFrame(object):
             self.longName = str(longName)
 
     def __repr__(self):
-        return f"<CoordinateFrame {self.shortName} ({self.longName})>"
+        return f"<CoordinateFrame '{self.shortName}' ({self.longName})>"
 
     def __str__(self):
-        return f"<CF {self.shortName}>"
+        return f"<CF '{self.shortName}'>"
 
     def __eq__(self, other):
         if isinstance(other, CoordinateFrame):
@@ -32,4 +32,4 @@ class CoordinateFrame(object):
     def asJSON(self):
         pass
 
-GOCF = CoordinateFrame('GOCF')
+GOCF = CoordinateFrame('GOCF', longName="Global Optical Coordinate Frame")

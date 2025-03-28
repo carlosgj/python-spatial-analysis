@@ -22,6 +22,12 @@ class Point(object):
             homogCoord = np.append(coordinates, 1.)
             self.coordinates = (nativeCF.tfMat @ homogCoord)[:3]
 
+    def __repr__(self):
+        return f"<Point '{self.name}' {self.nativeCF.shortName}:{self.coordinatesNative}>"
+
+    def __str__(self):
+        return f"<Point '{self.name}'>"
+
     def __eq__(self, other):
         if isinstance(other, Point):
             return np.allclose(self.coordinatesNative, other.coordinatesNative)
