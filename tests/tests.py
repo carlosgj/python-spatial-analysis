@@ -2,6 +2,7 @@ import unittest
 import logging
 import numpy as np
 import spatialanalysis as sa
+from spatialanalysis.units import units, deg, rad
 
 class TestPointBasics(unittest.TestCase):
     def test_ident(self):
@@ -12,26 +13,26 @@ class TestPointBasics(unittest.TestCase):
 
     def test_shiftInGOCF(self):
         pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
-        pt1.transform(1.5, 0, 0, 0, 0, 0)
+        pt1.transform(1.5, 0, 0, 0*deg, 0*deg, 0*deg)
         self.assertEqual(pt1, np.array([1.5, 0, 0]))
 
     def test_rotateInGOCF(self):
         pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
-        pt1.transform(1, 0, 0, 0, 0, 0)
-        pt1.transform(0, 0, 0, 0, 0, 45)
+        pt1.transform(1, 0, 0, 0*deg, 0*deg, 0*deg)
+        pt1.transform(0, 0, 0, 0*deg, 0*deg, 45*deg)
         self.assertEqual(pt1, np.array([0.70710678, 0.70710678, 0]))
 
     def test_rotateInOtherCF(self):
-        refCF = sa.CoordinateFrame("PlusX", tfMat=sa.makeTransform(1.5, 0, 0, 0, 0, 0))
+        refCF = sa.CoordinateFrame("PlusX", tfMat=sa.makeTransform(1.5, 0, 0, 0*rad, 0*rad, 0*rad))
         pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
-        pt1.transform(0, 0, 0, 0, 180, 0, refFrame=refCF)
+        pt1.transform(0, 0, 0, 0*deg, 180*deg, 0*deg, refFrame=refCF)
         self.assertEqual(pt1, np.array([3, 0, 0]))
 
 class TestCoordinateFrameBasics(unittest.TestCase):
     def setUp(self):
         self.plus1Z = sa.CoordinateFrame("+1Z", tfMat=np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 1], [0, 0, 0, 1]]))
         self.threeAxShift = sa.CoordinateFrame("ShiftXYZ", tfMat=np.array([[1, 0, 0, 1.2], [0, 1, 0, 3.4], [0, 0, 1, 5.6], [0, 0, 0, 1]]))
-        self.Xrot = sa.CoordinateFrame("Xrot", tfMat=sa.makeTransform(0, 0, 0, 30, 0, 0))
+        self.Xrot = sa.CoordinateFrame("Xrot", tfMat=sa.makeTransform(0, 0, 0, 30*deg, 0*deg, 0*deg))
 
     def test_GOCF(self):
         self.assertTrue(isinstance(sa.GOCF, sa.CoordinateFrame))
@@ -67,24 +68,24 @@ class TestCoordinateFrameBasics(unittest.TestCase):
 
     def test_shiftAfterCreation(self):
         cf1 = sa.CoordinateFrame("CF1")
-        cf1.transform(1.2, 3.4, 5.6, 0, 0, 0)
+        cf1.transform(1.2, 3.4, 5.6, 0*rad, 0*rad, 0*rad)
         self.assertEqual(self.threeAxShift, cf1)
 
     def test_rotateAfterCreation(self):
         cf1 = sa.CoordinateFrame("CF1")
-        cf1.transform(0, 0, 0, 30, 0, 0)
+        cf1.transform(0, 0, 0, 30*deg, 0*deg, 0*deg)
         self.assertEqual(self.Xrot, cf1)
 
     def test_rotateInOtherFrame(self):
         refCF = sa.CoordinateFrame("RefCF")
-        refCF.transform(1.5, 0, 0, 0, 0, 0)
+        refCF.transform(1.5, 0, 0, 0*deg, 0*deg, 0*deg)
 
         testCF1 = sa.CoordinateFrame("TestCF1")
-        testCF1.transform(0, 0, 0, 0, 180, 0)
-        testCF1.transform(3, 0, 0, 0, 0, 0)
+        testCF1.transform(0, 0, 0, 0*deg, 180*deg, 0*deg)
+        testCF1.transform(3, 0, 0, 0*deg, 0*deg, 0*deg)
 
         testCF2 = sa.CoordinateFrame("TestCF2")
-        testCF2.transform(0, 0, 0, 0, 180, 0, refFrame=refCF)
+        testCF2.transform(0, 0, 0, 0*deg, 180*deg, 0*deg, refFrame=refCF)
 
         self.assertEqual(testCF1, testCF2)
 

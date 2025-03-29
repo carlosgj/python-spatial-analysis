@@ -34,11 +34,11 @@ class Point(object):
             assert len(other) == 3
             return np.allclose(self.coordinates, other)
 
-    def transform(self, tx, ty, tz, rx, ry, rz, units='degrees', refFrame=None):
+    def transform(self, tx, ty, tz, rx, ry, rz, refFrame=None):
         if refFrame is None:
             refFrame = GOCF
 
-        tf = makeTransform(tx, ty, tz, rx, ry, rz, units=units)
+        tf = makeTransform(tx, ty, tz, rx, ry, rz)
         homogCoord = np.append(self.coordinates, 1.)
         foo = refFrame.tfMat @ tf @ np.linalg.inv(refFrame.tfMat) @ homogCoord
         self.coordinates = foo[:3]

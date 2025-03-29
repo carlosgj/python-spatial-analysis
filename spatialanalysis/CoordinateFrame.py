@@ -36,11 +36,11 @@ class CoordinateFrame(object):
             return np.allclose(self.tfMat, other.tfMat)
         return False
 
-    def transform(self, tx, ty, tz, rx, ry, rz, units='degrees', refFrame=None):
+    def transform(self, tx, ty, tz, rx, ry, rz, refFrame=None):
         if refFrame is None:
             refFrame = GOCF
 
-        tf = makeTransform(tx, ty, tz, rx, ry, rz, units=units)
+        tf = makeTransform(tx, ty, tz, rx, ry, rz)
 
         foo = refFrame.tfMat @ tf @ np.linalg.inv(refFrame.tfMat) @ self.tfMat
         self.tfMat = foo
