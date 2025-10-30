@@ -8,7 +8,7 @@ class Point(object):
         self.logger = logging.getLogger(name)
         self.name = name
         assert len(coordinates) == 3
-        coordinates = np.array(coordinates, dtype='float')
+        coordinates = np.array(coordinates, dtype='double')
 
         self.coordinatesNative = np.array(coordinates, dtype='float')
 

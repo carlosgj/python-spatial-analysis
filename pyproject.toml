@@ -1,0 +1,18 @@
+[project]
+name = "python-spatial-analysis"
+version = "0.0.1"
+authors = [
+  { name="Carlos Gross Jones", email="c.gross.jones@gmail.com" },
+]
+description = "Tools for analyzing transformations and relationships in 3D space"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/carlosgj/python-spatial-analysis"
