@@ -8,23 +8,23 @@ class TestPointBasics(unittest.TestCase):
     def test_ident(self):
         #Check that two points in the GOCF are equal
         pt1 = sa.Point([0, 0, 0], 'Pt1')
-        pt2 = sa.Point([0, 0, 0], 'Pt2', nativeCF=sa.GOCF)
+        pt2 = sa.Point([0, 0, 0], 'Pt2', cf=sa.GOCF)
         self.assertEqual(pt1, pt2)
 
     def test_shiftInGOCF(self):
-        pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
+        pt1 = sa.Point([0, 0, 0], 'Pt1', cf=sa.GOCF)
         pt1.transform(1.5, 0, 0, 0*deg, 0*deg, 0*deg)
         self.assertEqual(pt1, np.array([1.5, 0, 0]))
 
     def test_rotateInGOCF(self):
-        pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
+        pt1 = sa.Point([0, 0, 0], 'Pt1', cf=sa.GOCF)
         pt1.transform(1, 0, 0, 0*deg, 0*deg, 0*deg)
         pt1.transform(0, 0, 0, 0*deg, 0*deg, 45*deg)
         self.assertEqual(pt1, np.array([0.70710678, 0.70710678, 0]))
 
     def test_rotateInOtherCF(self):
         refCF = sa.CoordinateFrame("PlusX", tfMat=sa.makeTransform(1.5, 0, 0, 0*rad, 0*rad, 0*rad))
-        pt1 = sa.Point([0, 0, 0], 'Pt1', nativeCF=sa.GOCF)
+        pt1 = sa.Point([0, 0, 0], 'Pt1', cf=sa.GOCF)
         pt1.transform(0, 0, 0, 0*deg, 180*deg, 0*deg, refFrame=refCF)
         self.assertEqual(pt1, np.array([3, 0, 0]))
 
@@ -43,23 +43,23 @@ class TestCoordinateFrameBasics(unittest.TestCase):
         self.assertEqual(sa.GOCF, cf1)
 
     def test_oneAxOffset1(self):
-        pt = sa.Point([0, 0, 0], 'Pt1', nativeCF=self.plus1Z)
+        pt = sa.Point([0, 0, 0], 'Pt1', cf=self.plus1Z)
         self.assertEqual(pt, np.array([0, 0, 1]))
 
     def test_oneAxOffset2(self):
-        pt = sa.Point([0, 0, 1.5], 'Pt1', nativeCF=self.plus1Z)
+        pt = sa.Point([0, 0, 1.5], 'Pt1', cf=self.plus1Z)
         self.assertEqual(pt, np.array([0, 0, 2.5]))
 
     def test_oneAxOffset3(self):
-        pt = sa.Point([1.2, 3.4, 5.6], 'Pt1', nativeCF=self.plus1Z)
+        pt = sa.Point([1.2, 3.4, 5.6], 'Pt1', cf=self.plus1Z)
         self.assertEqual(pt, np.array([1.2, 3.4, 6.6]))
 
     def test_3AxOffset(self):
-        pt = sa.Point([1., 2., -3.], 'Pt1', nativeCF=self.threeAxShift)
+        pt = sa.Point([1., 2., -3.], 'Pt1', cf=self.threeAxShift)
         self.assertEqual(pt, np.array([2.2, 5.4, 2.6]))
 
     def test_rotate(self):
-        pt = sa.Point([1, 1, 1], 'Pt1', nativeCF=self.Xrot)
+        pt = sa.Point([1, 1, 1], 'Pt1', cf=self.Xrot)
         self.assertEqual(pt, np.array([1, 0.3660254, 1.3660254]))
 
     def test_copy(self):
@@ -99,4 +99,5 @@ if __name__ == '__main__':
     print(pt)
     print(repr(pt))
 
+    print("Beginning actual test cases")
     unittest.main()

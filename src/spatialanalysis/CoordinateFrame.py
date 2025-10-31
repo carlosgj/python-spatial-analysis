@@ -3,16 +3,25 @@ import numpy as np
 from spatialanalysis.utils import *
 
 class CoordinateFrame(object):
-    def __init__(self, shortName, tfMat=None, longName=None):
+    def __init__(self, shortName, tfMat=None, parent=None, longName=None):
         self.logger = logging.getLogger(shortName)
         self.shortName = shortName
 
+        if parent is None:
+            self.logger.info("No parent frame given; assuming parent is GOCF")
+            parentTf = np.identity(4, dtype='double')
+
+        else:
+            assert isinstance(parent, CoordinateFrame)
+            parentTf = parent.tfMat
+
+        #tfMat is a transform from GOCF to this frame
         if tfMat is None:
             self.logger.info(f"Creating {shortName} equal to GOCF")
-            self.tfMat = np.identity(4, dtype='float')
+            self.tfMat = np.identity(4, dtype='double')
         else:
             assert np.array_equal(tfMat.shape, np.array([4, 4]))
-            self.tfMat = np.array(tfMat, dtype='float')
+            self.tfMat = parentTf @ np.array(tfMat, dtype='double')
 
         if longName is None:
             self.longName = shortName
