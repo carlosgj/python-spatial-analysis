@@ -5,13 +5,16 @@ from spatialanalysis.units import units, deg, rad
 
 def makeRotation(rx, ry, rz):
     if not isinstance(rx, pint.Quantity):
-        logging.warning("rx does not have units. Assuming radians.")
+        if rx != 0:
+            logging.warning("rx does not have units. Assuming radians.")
         rx = rx * rad
     if not isinstance(ry, pint.Quantity):
-        logging.warning("rx does not have units. Assuming radians.")
+        if ry != 0:
+            logging.warning("ry does not have units. Assuming radians.")
         ry = ry * rad
     if not isinstance(rz, pint.Quantity):
-        logging.warning("rx does not have units. Assuming radians.")
+        if rz != 0:
+            logging.warning("rz does not have units. Assuming radians.")
         rz = rz * rad
 
     sa = np.sin(rz).magnitude

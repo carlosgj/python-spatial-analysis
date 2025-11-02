@@ -76,6 +76,17 @@ class TestCoordinateFrameBasics(unittest.TestCase):
         cf1.transform(0, 0, 0, 30*deg, 0*deg, 0*deg)
         self.assertEqual(self.Xrot, cf1)
 
+    def test_shiftAndRotate(self):
+        cf1 = sa.CoordinateFrame("CF1")
+        cf1.transform(0, 0, 1, 20*deg, 0, 0)
+        self.assertTrue(np.allclose(cf1.tfMat,
+            np.array([[1.0000000000, 0.0000000000, 0.0000000000, 0.0000000000],
+                      [0.0000000000, 0.9396926208, -0.3420201433, 0.0000000000],
+                      [0.0000000000, 0.3420201433, 0.9396926208, 1.0000000000],
+                      [0.0000000000, 0.0000000000, 0.0000000000, 1.0000000000]])))
+
+
+
     def test_rotateInOtherFrame(self):
         refCF = sa.CoordinateFrame("RefCF")
         refCF.transform(1.5, 0, 0, 0*deg, 0*deg, 0*deg)
